@@ -1,0 +1,843 @@
+/* ==========================================================================
+   CARTA DE TOMÁS PARA KATE — ESTILOS EDITORIALES ARTESANALES
+   Paleta:
+   - Fondo exterior: #171512
+   - Papel: #EEE8DC
+   - Texto: #191714
+   - Acento: #9A6F52
+   ========================================================================== */
+
+:root {
+  --bg-exterior: #171512;
+  --bg-paper: #EEE8DC;
+  --bg-paper-alt: #E9E2D4;
+  --color-text: #191714;
+  --color-accent: #9A6F52;
+  --color-muted: rgba(25, 23, 20, 0.65);
+  --color-border: rgba(25, 23, 20, 0.12);
+  
+  --font-serif: 'Libre Baskerville', Georgia, serif;
+  --font-mono: 'DM Mono', monospace;
+
+  --book-width: 1100px;
+  --book-height: 740px;
+  --book-radius: 6px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-exterior);
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   ATMÓSFERA Y FONDO EXTERIOR
+   ========================================================================== */
+.ambient-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(238, 232, 220, 0.03) 0%, transparent 70%),
+    radial-gradient(circle at 20% 20%, rgba(154, 111, 82, 0.04) 0%, transparent 50%);
+  z-index: 1;
+}
+
+.stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px 45px;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   EL LIENZO/LIBRO DE PAPEL LIMPIO (SIN DOBLEZ CENTRAL)
+   ========================================================================== */
+.book {
+  position: relative;
+  width: 100%;
+  max-width: var(--book-width);
+  height: min(var(--book-height), 90vh);
+  background-color: var(--bg-paper);
+  border-radius: var(--book-radius);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.75),
+    0 10px 20px -5px rgba(0, 0, 0, 0.6),
+    inset 0 0 80px rgba(154, 111, 82, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  transition: transform 0.4s ease;
+}
+
+/* ELIMINADO EL DOBLEZ CENTRAL (.book::after) A PETICIÓN DEL USUARIO */
+
+/* ==========================================================================
+   NAVEGACIÓN DISCRETA
+   ========================================================================== */
+.book-nav {
+  position: absolute;
+  bottom: 18px;
+  right: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 50;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  user-select: none;
+}
+
+.page-indicator {
+  letter-spacing: 0.06em;
+  min-width: 55px;
+  text-align: center;
+}
+
+.nav-arrow {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.nav-arrow:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: rgba(154, 111, 82, 0.06);
+  transform: scale(1.05);
+}
+
+.nav-arrow:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   PÁGINAS Y TRANSICIONES DE HOJEO SUAVE
+   ========================================================================== */
+.page {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg-paper);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(25px) scale(0.995);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.page.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.page.prev-leave {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-25px) scale(0.995);
+}
+
+/* Grano y textura orgánica de papel artesanal */
+.paper-texture {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(25, 23, 20, 0.07) 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.page-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.page-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 40px 60px 75px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(154, 111, 82, 0.3) transparent;
+}
+
+.page-scrollable::-webkit-scrollbar {
+  width: 5px;
+}
+.page-scrollable::-webkit-scrollbar-thumb {
+  background: rgba(154, 111, 82, 0.25);
+  border-radius: 4px;
+}
+
+.page-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   TIPOGRAFÍA Y PROSA
+   ========================================================================== */
+.prose {
+  font-size: 1.14rem;
+  line-height: 1.95;
+  color: var(--color-text);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+.prose p {
+  margin-bottom: 1.85rem;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.poetic-spacing p {
+  text-align: left;
+}
+
+.whisper-caption {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 10px;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   PORTADA
+   ========================================================================== */
+.cover-layout {
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 55px 40px 50px;
+}
+
+.cover-illustration-top {
+  width: 100%;
+  max-width: 280px;
+  color: var(--color-accent);
+  margin-bottom: 15px;
+}
+
+.cover-titles {
+  max-width: 680px;
+}
+
+.cover-h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.imperfecta {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  transform: rotate(-1.8deg) translateY(2px);
+  color: var(--color-text);
+}
+
+.super-honesta {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 6px 0;
+}
+
+.carta-tomas-kate {
+  font-size: clamp(1.4rem, 3.2vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 14px 20px;
+  margin-top: 6px;
+}
+
+.cover-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.cover-date {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  letter-spacing: 0.15em;
+  color: var(--color-muted);
+}
+
+.btn-abrir {
+  background-color: var(--color-text);
+  color: var(--bg-paper);
+  border: 1px solid var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  padding: 13px 40px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(25, 23, 20, 0.15);
+}
+
+.btn-abrir:hover {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #FFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(154, 111, 82, 0.3);
+}
+
+.corner-sketch {
+  position: absolute;
+  color: var(--color-accent);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.corner-sk-br {
+  bottom: 25px;
+  right: 25px;
+}
+
+/* ==========================================================================
+   SLOTS ILUSTRATIVOS
+   ========================================================================== */
+.illustration-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 34px;
+}
+
+.rough-stroke {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ==========================================================================
+   PÁGINA 1: CORAZÓN MUTANDO A ESTRELLA (REDIBUJADO ARTESANAL)
+   ========================================================================== */
+.slot-p1 {
+  min-height: 150px;
+}
+
+.morph-svg {
+  color: var(--color-accent);
+}
+
+.subtle-dot {
+  opacity: 0.4;
+}
+
+/* ==========================================================================
+   PÁGINA 2: MANOS ENCONTRÁNDOSE + TRAZOS
+   ========================================================================== */
+.slot-p2 {
+  min-height: 120px;
+}
+
+.hands-svg {
+  color: var(--color-text);
+}
+
+.hand-left {
+  transform: translateX(-40px);
+  opacity: 0;
+  transition: transform 1.8s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 1.5s ease;
+}
+
+.hand-right {
+  transform: translateX(40px);
+  opacity: 0;
+  transition: transform 1.8s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 1.5s ease;
+}
+
+.burst-item {
+  color: var(--color-accent);
+  stroke: var(--color-accent);
+  opacity: 0;
+  transform: scale(0.6);
+  transform-origin: center;
+  transition: opacity 1s ease 1.7s, transform 1s cubic-bezier(0.18, 0.89, 0.32, 1.28) 1.7s;
+}
+
+.page[data-page="2"].active .hand-left,
+.page[data-page="2"].active .hand-right {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.page[data-page="2"].active .burst-item {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ==========================================================================
+   PÁGINA 3: ARCOÍRIS + CASA + MARIPOSAS
+   ========================================================================== */
+.slot-p3 {
+  min-height: 130px;
+}
+
+.p3-scene-svg {
+  color: var(--color-text);
+}
+
+.rainbow-arc {
+  stroke: var(--color-accent);
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+  transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page[data-page="3"].active .arc-1 {
+  transition-delay: 0.3s;
+  stroke-dashoffset: 0;
+}
+.page[data-page="3"].active .arc-2 {
+  transition-delay: 0.6s;
+  stroke-dashoffset: 0;
+  opacity: 0.7;
+}
+.page[data-page="3"].active .arc-3 {
+  transition-delay: 0.9s;
+  stroke-dashoffset: 0;
+  opacity: 0.45;
+}
+
+.house-line {
+  stroke: var(--color-text);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 1.2s ease 1.6s, transform 1.2s ease 1.6s;
+}
+
+.page[data-page="3"].active .house-line {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chimney-smoke {
+  stroke: var(--color-accent);
+}
+
+.butterfly {
+  color: var(--color-accent);
+  opacity: 0;
+  transform: translate(0, 0);
+}
+
+.page[data-page="3"].active .bfly-1 {
+  animation: flyBfly1 8s infinite ease-in-out 2.5s;
+}
+.page[data-page="3"].active .bfly-2 {
+  animation: flyBfly2 7s infinite ease-in-out 3.1s;
+}
+.page[data-page="3"].active .bfly-3 {
+  animation: flyBfly3 9s infinite ease-in-out 3.7s;
+}
+
+@keyframes flyBfly1 {
+  0% { transform: translate(70px, 60px) rotate(5deg); opacity: 0; }
+  10% { opacity: 0.85; }
+  35% { transform: translate(110px, 30px) rotate(-15deg); }
+  65% { transform: translate(150px, 50px) rotate(12deg); }
+  90% { opacity: 0.85; }
+  100% { transform: translate(200px, 20px) rotate(-5deg); opacity: 0; }
+}
+
+@keyframes flyBfly2 {
+  0% { transform: translate(180px, 80px) rotate(-8deg); opacity: 0; }
+  15% { opacity: 0.8; }
+  45% { transform: translate(220px, 45px) rotate(10deg); }
+  75% { transform: translate(250px, 65px) rotate(-12deg); }
+  90% { opacity: 0.8; }
+  100% { transform: translate(290px, 35px) rotate(6deg); opacity: 0; }
+}
+
+@keyframes flyBfly3 {
+  0% { transform: translate(120px, 75px) rotate(10deg); opacity: 0; }
+  20% { opacity: 0.75; }
+  50% { transform: translate(80px, 45px) rotate(-10deg); }
+  80% { transform: translate(120px, 25px) rotate(14deg); }
+  90% { opacity: 0.75; }
+  100% { transform: translate(160px, 15px) rotate(-6deg); opacity: 0; }
+}
+
+/* ==========================================================================
+   PÁGINA 4: UNA SOLA LÍNEA DIBUJÁNDOSE + ESTRELLA FINAL
+   ========================================================================== */
+.slot-p4 {
+  min-height: 80px;
+}
+
+.journey-path {
+  stroke: var(--color-accent);
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  transition: stroke-dashoffset 3.6s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
+}
+
+.journey-star {
+  color: var(--color-text);
+  opacity: 0;
+  transform: scale(0.3) rotate(-20deg);
+  transform-origin: 294px 42px;
+  transition: opacity 1s ease 4s, transform 1s cubic-bezier(0.18, 0.89, 0.32, 1.28) 4s;
+}
+
+.page[data-page="4"].active .journey-path {
+  stroke-dashoffset: 0;
+}
+
+.page[data-page="4"].active .journey-star {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* ==========================================================================
+   PÁGINA 5: DOS CAMINOS QUE SE SEPARAN Y FRASE FINAL
+   ========================================================================== */
+.slot-p5 {
+  min-height: 80px;
+  transition: opacity 1.2s ease;
+}
+
+.dual-path-1, .dual-path-2 {
+  stroke: var(--color-accent);
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+  transition: stroke-dashoffset 3.2s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
+}
+
+.page[data-page="5"].active .dual-path-1,
+.page[data-page="5"].active .dual-path-2 {
+  stroke-dashoffset: 0;
+}
+
+.p5-container {
+  position: relative;
+  min-height: 480px;
+}
+
+.p5-text-body {
+  transition: opacity 1.6s cubic-bezier(0.4, 0, 0.2, 1), transform 1.6s ease;
+}
+
+.final-cinematic-phrase {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
+  padding: 20px;
+}
+
+.final-words {
+  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-text);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  max-width: 600px;
+}
+
+.p5-cinematic-state .p5-text-body,
+.p5-cinematic-state #p5Illustration {
+  opacity: 0 !important;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+.p5-cinematic-state .final-cinematic-phrase {
+  opacity: 1 !important;
+}
+
+/* ==========================================================================
+   CONTRAPORTADA: EL GATO WATÓN AUTOR SOLEMNE
+   ========================================================================== */
+.backcover-layout {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 50px 30px 45px;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.backcover-top-deco {
+  color: var(--color-accent);
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.author-portrait-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.portrait-frame {
+  position: relative;
+  padding: 12px;
+  border: 1.5px solid var(--color-text);
+  border-radius: 2px;
+  background-color: var(--bg-paper-alt);
+  box-shadow: 0 4px 14px rgba(25, 23, 20, 0.08);
+}
+
+.cat-svg {
+  display: block;
+}
+
+.portrait-subtag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.sparkles-container {
+  position: absolute;
+  inset: -15px -25px;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  color: var(--color-accent);
+  font-size: 0.95rem;
+  opacity: 0;
+}
+
+.page[data-page="6"].active .sp-1 {
+  top: 10%;
+  left: 5%;
+  animation: sparkleTwinkle 2.8s infinite ease-in-out 0.2s;
+}
+.page[data-page="6"].active .sp-2 {
+  top: 15%;
+  right: 5%;
+  animation: sparkleTwinkle 3.2s infinite ease-in-out 0.8s;
+}
+.page[data-page="6"].active .sp-3 {
+  bottom: 22%;
+  left: 2%;
+  animation: sparkleTwinkle 2.5s infinite ease-in-out 1.4s;
+}
+.page[data-page="6"].active .sp-4 {
+  bottom: 18%;
+  right: 2%;
+  animation: sparkleTwinkle 3.4s infinite ease-in-out 0.5s;
+}
+
+@keyframes sparkleTwinkle {
+  0%, 100% { opacity: 0; transform: scale(0.6) rotate(0deg); }
+  50% { opacity: 0.9; transform: scale(1.2) rotate(15deg); }
+}
+
+.backcover-quote {
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  margin-bottom: 24px;
+  max-width: 540px;
+}
+
+.author-credits {
+  margin-bottom: 24px;
+}
+
+.author-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.author-role {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.colophon {
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   HINTS DE TECLADO
+   ========================================================================== */
+.keyboard-hints {
+  position: fixed;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: rgba(238, 232, 220, 0.4);
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (PC & CELULAR ~390x844px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .stage {
+    padding: 10px 8px 30px;
+  }
+
+  .book {
+    height: 92vh;
+    border-radius: 6px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+  }
+
+  .page-scrollable {
+    padding: 24px 22px 65px;
+  }
+
+  .cover-layout {
+    padding: 35px 20px 45px;
+  }
+
+  .imperfecta {
+    font-size: 2.1rem;
+  }
+
+  .super-honesta {
+    font-size: 0.88rem;
+  }
+
+  .carta-tomas-kate {
+    font-size: 1.25rem;
+    padding: 10px 14px;
+  }
+
+  .prose {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .prose p {
+    text-align: left;
+    margin-bottom: 1.45rem;
+  }
+
+  .book-nav {
+    bottom: 12px;
+    right: 14px;
+    gap: 8px;
+  }
+
+  .nav-arrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .page-indicator {
+    font-size: 0.75rem;
+    min-width: 45px;
+  }
+
+  .keyboard-hints {
+    display: none;
+  }
+
+  .final-words {
+    font-size: 1.35rem;
+  }
+
+  .author-portrait-container {
+    margin-bottom: 18px;
+  }
+
+  .portrait-frame {
+    padding: 8px;
+  }
+
+  .cat-svg {
+    width: 100px;
+    height: 100px;
+  }
+
+  .backcover-quote {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: 18px;
+  }
+
+  .author-name {
+    font-size: 1.2rem;
+  }
+}

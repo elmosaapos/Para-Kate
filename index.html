@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta de Tomás para Kate</title>
+  <!-- Google Fonts: Libre Baskerville (editorial serif) & DM Mono (artesanal/poético) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Textura sutil y viñeta ambiental -->
+  <div class="ambient-overlay" aria-hidden="true"></div>
+
+  <!-- Contenedor general centrado que sostiene el libro -->
+  <main class="stage">
+    <div class="book" id="book">
+      
+      <!-- CONTROLES FLOTANTES DISCRETOS EN EL BORDE DEL LIBRO -->
+      <nav class="book-nav" aria-label="Navegación del libro">
+        <button id="btnPrev" class="nav-arrow nav-prev" aria-label="Página anterior" title="Anterior (←)">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <span class="page-indicator" id="pageIndicator" aria-live="polite">Portada</span>
+        <button id="btnNext" class="nav-arrow nav-next" aria-label="Página siguiente" title="Siguiente (→ o Espacio)">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </nav>
+
+      <!-- ========================================
+           PORTADA
+           ======================================== -->
+      <section class="page page-cover active" data-page="0" aria-label="Portada">
+        <div class="paper-texture"></div>
+        <div class="page-content cover-layout">
+          
+          <!-- Elementos ilustrados a mano armónicos y cuidados: flores artesanales bien trazadas y corazón -->
+          <div class="cover-illustration-top" aria-hidden="true">
+            <svg class="hand-svg" viewBox="0 0 280 100" fill="none" stroke="currentColor">
+              <!-- Flor izquierda (trazo suave, 5 pétalos botánicos estilo libreta) -->
+              <g class="flower-sketch-left" transform="translate(48, 50)">
+                <!-- Tallo y hojita sutil -->
+                <path d="M 0,16 Q 1,32 -3,44" stroke="#9A6F52" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M 0,26 Q 8,24 10,20 Q 5,28 0,28" stroke="#9A6F52" stroke-width="1.2" fill="none"/>
+                <!-- Pétalos -->
+                <path d="M 0,-5 C -8,-16 8,-16 0,-5 Z" stroke="#9A6F52" stroke-width="1.4" fill="rgba(154,111,82,0.06)"/>
+                <path d="M 5,-2 C 16,-8 18,8 5,0 Z" stroke="#9A6F52" stroke-width="1.4" fill="rgba(154,111,82,0.06)"/>
+                <path d="M 4,4 C 14,12 2,20 1,5 Z" stroke="#9A6F52" stroke-width="1.4" fill="rgba(154,111,82,0.06)"/>
+                <path d="M -3,4 C -12,14 -18,2 -3,1 Z" stroke="#9A6F52" stroke-width="1.4" fill="rgba(154,111,82,0.06)"/>
+                <path d="M -5,-2 C -18,-7 -14,-14 -3,-4 Z" stroke="#9A6F52" stroke-width="1.4" fill="rgba(154,111,82,0.06)"/>
+                <circle cx="0" cy="0" r="3" fill="#9A6F52" stroke="none"/>
+              </g>
+
+              <!-- Pequeño corazón central dibujado a mano -->
+              <path d="M 140,42 C 130,22 104,30 115,50 C 124,66 140,78 140,78 C 140,78 156,66 165,50 C 176,30 150,22 140,42 Z" stroke="#9A6F52" stroke-width="1.6" fill="rgba(154,111,82,0.08)"/>
+              <!-- Pequeños puntos decorativos -->
+              <circle cx="120" cy="36" r="1.2" fill="#9A6F52" stroke="none"/>
+              <circle cx="160" cy="36" r="1.2" fill="#9A6F52" stroke="none"/>
+
+              <!-- Flor derecha (estilo tulipán/silvestre artesanal) -->
+              <g class="flower-sketch-right" transform="translate(232, 50)">
+                <!-- Tallo -->
+                <path d="M 0,14 Q -2,30 2,44" stroke="#9A6F52" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M 0,24 Q -7,22 -9,18 Q -4,26 0,26" stroke="#9A6F52" stroke-width="1.2" fill="none"/>
+                <!-- Pétalos tulipán silvestre -->
+                <path d="M 0,12 C -12,2 -10,-12 0,-3 C 10,-12 12,2 0,12 Z" stroke="#9A6F52" stroke-width="1.4" fill="rgba(154,111,82,0.06)"/>
+                <path d="M 0,-3 L 0,8" stroke="#9A6F52" stroke-width="1.2" stroke-dasharray="1 2"/>
+                <circle cx="0" cy="-7" r="1.8" fill="#9A6F52" stroke="none"/>
+              </g>
+            </svg>
+          </div>
+
+          <header class="cover-titles">
+            <h1 class="cover-h1">
+              <span class="imperfecta">La imperfecta</span>
+              <span class="super-honesta">pero súper honesta</span>
+              <span class="carta-tomas-kate">carta de Tomás para Kate</span>
+            </h1>
+          </header>
+
+          <div class="cover-footer">
+            <p class="cover-date">Octubre · 2026</p>
+            <button class="btn-abrir" id="btnAbrir">ABRIR</button>
+          </div>
+
+          <!-- Pequeños detalles sutiles en esquinas -->
+          <div class="corner-sketch corner-sk-br" aria-hidden="true">
+            <svg viewBox="0 0 60 60" width="45" height="45" fill="none" stroke="currentColor">
+              <path d="M 10,50 Q 35,48 50,10" stroke-width="1.2" stroke-dasharray="2 3"/>
+              <path d="M 28,42 C 32,36 38,40 34,46 C 30,52 24,46 28,42 Z" stroke-width="1.2"/>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           PÁGINA 1
+           ======================================== -->
+      <section class="page page-text" data-page="1" aria-label="Página 1">
+        <div class="paper-texture"></div>
+        <div class="page-content">
+          <div class="page-scrollable">
+            <div class="page-inner">
+              
+              <!-- Animación SVG: Corazón que muta lentamente a Estrella y viceversa -->
+              <div class="illustration-slot slot-p1" aria-label="Ilustración que cambia de forma">
+                <svg class="morph-svg" viewBox="0 0 160 160" width="130" height="130">
+                  <path id="morphPath" class="rough-stroke hand-drawn-morph" d="M 80,48 C 68,26 34,36 46,62 C 58,84 80,106 80,106 C 80,106 102,84 114,62 C 126,36 92,26 80,48 Z" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  <circle cx="80" cy="74" r="1.5" class="subtle-dot" fill="currentColor" />
+                </svg>
+                <span class="whisper-caption">sin forma fija</span>
+              </div>
+
+              <!-- Texto exacto sin modificaciones -->
+              <article class="prose">
+                <p>No sé amarte, solo sé que te amo. Amarte, hoy y siempre, ha sido el lado más abstracto de mi arte. No está definido ni reglado por parámetros preestablecidos ni pensados; a veces sí imaginados, pero no dictados por nada predeterminado.</p>
+                <p>Amarte es mi máxima expresión abstracta de mí. Eres todo y nada; para mí eres todo y, sin ti, me siento nada. No siempre, a veces, pero no nunca.</p>
+                <p>Mi amor por ti no tiene forma, pero no está deformado. Es libre, relajado, no de forma dominante. Quiero ser tu amante u objeto más preciado; perdón, objetivo más preciado.</p>
+                <p>¿Cuánto vale amarte? No quiero que me des precio o me sentiré despreciado. Mejor dicho, ¿cuándo vale amarte? ¿Tiene fecha, estado, momento? Si lo he sentido siempre a sido como flecha cuando he estado contento, ¿es 24/7 o pega part time? De ti no quiero apartarme ni descansar.</p>
+              </article>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           PÁGINA 2
+           ======================================== -->
+      <section class="page page-text" data-page="2" aria-label="Página 2">
+        <div class="paper-texture"></div>
+        <div class="page-content">
+          <div class="page-scrollable">
+            <div class="page-inner">
+              
+              <!-- Animación SVG: Dos manos simples aproximándose y encontrándose con trazos -->
+              <div class="illustration-slot slot-p2" aria-label="Ilustración de dos manos encontrándose">
+                <svg class="hands-svg" viewBox="0 0 320 110" width="270" height="95">
+                  <g class="hand-left">
+                    <path class="rough-stroke" d="M 15,62 C 45,60 65,58 85,55 C 98,53 108,46 118,48 C 124,49 128,55 122,60 C 114,64 102,64 92,67 C 82,70 65,72 20,76" stroke-width="2" stroke-linecap="round" fill="none"/>
+                    <path class="rough-stroke" d="M 86,55 C 92,44 104,42 110,46 C 113,48 111,53 104,54" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                  </g>
+
+                  <g class="hand-right">
+                    <path class="rough-stroke" d="M 305,62 C 275,60 255,58 235,55 C 222,53 212,46 202,48 C 196,49 192,55 198,60 C 206,64 218,64 228,67 C 238,70 255,72 300,76" stroke-width="2" stroke-linecap="round" fill="none"/>
+                    <path class="rough-stroke" d="M 234,55 C 228,44 216,42 210,46 C 207,48 209,53 216,54" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                  </g>
+
+                  <g class="burst-strokes">
+                    <path class="burst-item burst-star" d="M 160,25 L 162,31 L 168,32 L 163,36 L 165,42 L 160,38 L 155,42 L 157,36 L 152,32 L 158,31 Z" stroke-width="1.4" fill="none"/>
+                    <path class="burst-item burst-heart" d="M 160,78 C 156,71 146,73 150,81 C 154,88 160,94 160,94 C 160,94 166,88 170,81 C 174,73 164,71 160,78 Z" stroke-width="1.4" fill="none"/>
+                    <ellipse class="burst-item burst-circle" cx="138" cy="30" rx="3.5" ry="4" stroke-width="1.3" fill="none"/>
+                    <g class="burst-item burst-flower" transform="translate(182, 30)">
+                      <circle cx="0" cy="0" r="2" fill="#9A6F52" stroke="none"/>
+                      <circle cx="-4" cy="0" r="2" stroke-width="1" fill="none"/>
+                      <circle cx="4" cy="0" r="2" stroke-width="1" fill="none"/>
+                      <circle cx="0" cy="-4" r="2" stroke-width="1" fill="none"/>
+                      <circle cx="0" cy="4" r="2" stroke-width="1" fill="none"/>
+                    </g>
+                    <path class="burst-item burst-line1" d="M 132,75 Q 126,82 120,86" stroke-width="1.4" stroke-linecap="round"/>
+                    <path class="burst-item burst-line2" d="M 188,74 Q 195,80 201,84" stroke-width="1.4" stroke-linecap="round"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Texto exacto sin modificaciones -->
+              <article class="prose">
+                <p>Me estremezco cuando te pienso; entremezclo el deseo. De repente, te quiero descalzar, desnudar y cuidar, sin cultivar tu vulnerabilidad. Solos y elocuentes, no necesito que me lo cuentes; tus ojos me lo van a delatar.</p>
+                <p>Te quiero pintar sin delantal, dibujar sin pincelar, presenciar sin necesidad de mirar, solo estar y apreciar lo bien que se siente al solos estar.</p>
+                <p>Ah, ¿ves por qué me cuesta? No sé definir mi amor por ti; su naturaleza es no estar definido. Amarte, hoy y siempre, ha sido el lado más abstracto de mi arte.</p>
+                <p>Mirarte es rico, de enriquecedor, porque tocarte es rico como forma de expresión. Yo soy rico por en ti ser digno de ocasión. Y ambos deberíamos sentirnos ricos por tenernos tú y yo. Ricos de abundancia, de dinero ya sé que no.</p>
+                <p>Pero ¿cuándo nos faltó? Para tomarnos de las manos alcanzó, para llorar en nuestros hombros nos bastó, para sentirnos un nosotros nos sobró y para tenernos el uno al otro nunca importó.</p>
+              </article>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           PÁGINA 3
+           ======================================== -->
+      <section class="page page-text" data-page="3" aria-label="Página 3">
+        <div class="paper-texture"></div>
+        <div class="page-content">
+          <div class="page-scrollable">
+            <div class="page-inner">
+              
+              <!-- Animación SVG: Arcoíris + Casita + Mariposas volando -->
+              <div class="illustration-slot slot-p3" aria-label="Ilustración de arcoíris, casa y mariposas">
+                <svg class="p3-scene-svg" viewBox="0 0 340 130" width="300" height="115">
+                  <g class="rainbow-group">
+                    <path class="rainbow-arc arc-1" d="M 40,95 C 65,30 165,30 190,95" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                    <path class="rainbow-arc arc-2" d="M 48,95 C 72,40 158,40 182,95" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                    <path class="rainbow-arc arc-3" d="M 56,95 C 78,50 150,50 174,95" stroke-width="2.0" stroke-linecap="round" fill="none"/>
+                  </g>
+
+                  <g class="house-group">
+                    <polyline class="house-line" points="220,95 240,75 260,95" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <rect class="house-line" x="225" y="95" width="30" height="20" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                    <path class="house-line" d="M 236,115 L 236,104 C 236,102 244,102 244,104 L 244,115" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                    <path class="house-line chimney-smoke" d="M 248,78 Q 246,70 252,65 Q 256,60 252,54" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="2 2" fill="none"/>
+                  </g>
+
+                  <g class="butterfly bfly-1">
+                    <path d="M 0,0 C -5,-8 -12,-3 -4,0 C -12,3 -5,8 0,0 C 5,8 12,3 4,0 C 12,-3 5,-8 0,0" stroke-width="1.3" fill="none" stroke="currentColor"/>
+                  </g>
+                  <g class="butterfly bfly-2">
+                    <path d="M 0,0 C -4,-6 -9,-2 -3,0 C -9,2 -4,6 0,0 C 4,6 9,2 3,0 C 9,-2 4,-6 0,0" stroke-width="1.2" fill="none" stroke="currentColor"/>
+                  </g>
+                  <g class="butterfly bfly-3">
+                    <path d="M 0,0 C -3,-5 -7,-2 -2,0 C -7,2 -3,5 0,0 C 3,5 7,2 2,0 C 7,-2 3,-5 0,0" stroke-width="1.1" fill="none" stroke="currentColor"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Texto exacto sin modificaciones -->
+              <article class="prose poetic-spacing">
+                <p>Eres motivación para levantarme,<br>
+                mi inspiración para mejorarme,<br>
+                mi elección siempre al despertarme,<br>
+                mi erección de corazón y el hervor de mi sangre,<br>
+                mi cura para los males,<br>
+                luna cuando se ve por las tardes.</p>
+                
+                <p>Siento lo que un niño al ver su primer arcoíris cada vez que despierto y estás conmigo.</p>
+                
+                <p>Siento lo que un perro siente al llegar a su primer hogar, siempre que llego a tu casa y cuelgo el abrigo.</p>
+                
+                <p>Siento las mariposas del primer amor en el ombligo cada vez que recuerdo cómo nos conocimos.</p>
+              </article>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           PÁGINA 4
+           ======================================== -->
+      <section class="page page-text" data-page="4" aria-label="Página 4">
+        <div class="paper-texture"></div>
+        <div class="page-content">
+          <div class="page-scrollable">
+            <div class="page-inner">
+              
+              <!-- Animación SVG minimalista: Una sola línea con curvas e imperfecciones + pequeña estrella al final -->
+              <div class="illustration-slot slot-p4" aria-label="Ilustración de una línea de vida y una estrella">
+                <svg class="journey-svg" viewBox="0 0 340 70" width="300" height="60">
+                  <path id="journeyLine" class="journey-path" d="M 20,40 C 60,38 75,55 100,50 C 120,45 130,28 145,35 C 155,40 152,52 165,50 C 180,48 190,30 215,35 C 235,40 248,56 270,42 L 290,42" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  <g class="journey-star" transform="translate(294, 42)">
+                    <path d="M 0,-7 L 2,-2 L 7,0 L 2,2 L 0,7 L -2,2 L -7,0 L -2,-2 Z" stroke-width="1.3" fill="none" stroke="currentColor"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Texto exacto sin modificaciones -->
+              <article class="prose">
+                <p>Ni imagino lo que debe ser no estar contigo, incluso sin saber bien lo que es estar contigo. Solo enloquecido por pensar en lo que he sido, a veces torpe, entorpecido.</p>
+                <p>Sé que no es fácil estar conmigo, que me siento perseguido y necesito constante alivio de saber que soy el elegido. Por ti, por ti he cambiado más de lo pensado y esperado.</p>
+                <p>Me has acompañado, me has dejado acompañarte, me has incluido sin esperar nada a cambio y te has incluido sin esperar nada a cambio.</p>
+                <p>En el fondo, lo único que has cambiado ha sido la vida de un depresivo, a ratos desprendido de deseos más allá de estar vivo, porque su vida tiene mucho más sentido gracias a todo lo que por ti ha sentido.</p>
+                <p>Gracias a ti he mejorado, gracias a lo que me has enseñado tú. Me siento mejor ahora. No es dependencia, es gratitud.</p>
+                <p>Me has enseñado cómo se siente amar sin necesidad de saber cómo, como una profe con vocación a quien le prestan atención todos. Te admiro, absorto como bobo, me pierdo en tus ojos, como se deberían perder todos para ser dichosos de una experiencia que te cambia el todo.</p>
+                <p>Tú eres todo: lo que está bien, lo que está mal. Eres el equilibrio que buscamos todos, el sentimiento que define el cómo. Y ahí volvemos a cómo comenzó to… bueno, todo, jaja.</p>
+              </article>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           PÁGINA 5
+           ======================================== -->
+      <section class="page page-text" data-page="5" aria-label="Página 5">
+        <div class="paper-texture"></div>
+        <div class="page-content">
+          <div class="page-scrollable">
+            <div class="page-inner p5-container">
+              
+              <!-- Animación SVG: Dos caminos que inician juntos, corren paralelos y se separan suavemente -->
+              <div class="illustration-slot slot-p5" id="p5Illustration" aria-label="Ilustración de dos caminos que se separan">
+                <svg class="dual-paths-svg" viewBox="0 0 340 70" width="300" height="60">
+                  <path class="dual-path-1" d="M 20,40 C 70,39 120,40 160,38 C 200,36 230,22 300,16" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                  <path class="dual-path-2" d="M 20,43 C 70,42 120,43 160,45 C 200,47 230,60 300,64" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                </svg>
+              </div>
+
+              <!-- Texto de Página 5 que luego da paso a la frase cinematográfica -->
+              <article class="prose p5-text-body" id="p5TextBody">
+                <p>Si cada paso lo damos juntos, se sienten como dos pasos. Si un día camino solo, sabré cómo continuar esos trazos. Si un día no somos un todo, cerraremos los ojos y el viento nos recordará que no estuvimos solos, que no estamos solos.</p>
+                <p>Y ese es el mejor regalo que me podrías haber dejado: para hoy o para siempre, estemos hasta hoy o para siempre.</p>
+                <p>Sabré que valgo lo suficiente para tener el honor de tenerte, más allá de conocerte; corrijo: tenernos.</p>
+                <p>Y aunque no siempre crea, agradeceré al más allá el simple hito de conocerte.</p>
+              </article>
+
+              <!-- Frase final cinematográfica, limpia y simple -->
+              <div class="final-cinematic-phrase" id="finalPhrase">
+                <p class="final-words">Te amo, Kate, desde ese marzo hasta siempre.</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           CONTRAPORTADA
+           ======================================== -->
+      <section class="page page-backcover" data-page="6" aria-label="Contraportada">
+        <div class="paper-texture"></div>
+        <div class="page-content backcover-layout">
+          
+          <div class="backcover-top-deco" aria-hidden="true">
+            <svg viewBox="0 0 100 20" width="70" height="14" fill="none" stroke="currentColor">
+              <line x1="10" y1="10" x2="42" y2="10" stroke-width="1.2"/>
+              <circle cx="50" cy="10" r="2.5" fill="#9A6F52" stroke="none"/>
+              <line x1="58" y1="10" x2="90" y2="10" stroke-width="1.2"/>
+            </svg>
+          </div>
+
+          <div class="author-portrait-container">
+            <div class="sparkles-container" aria-hidden="true">
+              <span class="sparkle sp-1">✦</span>
+              <span class="sparkle sp-2">✧</span>
+              <span class="sparkle sp-3">✦</span>
+              <span class="sparkle sp-4">✧</span>
+            </div>
+
+            <div class="portrait-frame">
+              <svg class="cat-svg" viewBox="0 0 180 180" width="140" height="140">
+                <ellipse cx="90" cy="115" rx="55" ry="45" fill="#E4DBCB" stroke="#191714" stroke-width="2"/>
+                <circle cx="90" cy="72" r="38" fill="#E4DBCB" stroke="#191714" stroke-width="2"/>
+                <polygon points="62,48 55,20 80,38" fill="#E4DBCB" stroke="#191714" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="118,48 125,20 100,38" fill="#E4DBCB" stroke="#191714" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="64,44 60,28 76,38" fill="rgba(154,111,82,0.2)"/>
+                <polygon points="116,44 120,28 104,38" fill="rgba(154,111,82,0.2)"/>
+                <path d="M 72,70 Q 78,74 84,70" stroke="#191714" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <path d="M 96,70 Q 102,74 108,70" stroke="#191714" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <polygon points="87,77 93,77 90,81" fill="#9A6F52"/>
+                <path d="M 90,81 Q 85,87 80,85 M 90,81 Q 95,87 100,85" stroke="#191714" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M 68,78 L 48,76 M 67,83 L 50,85" stroke="#191714" stroke-width="1.3" stroke-linecap="round"/>
+                <path d="M 112,78 L 132,76 M 113,83 L 130,85" stroke="#191714" stroke-width="1.3" stroke-linecap="round"/>
+                <ellipse cx="70" cy="148" rx="14" ry="10" fill="#E4DBCB" stroke="#191714" stroke-width="1.8"/>
+                <ellipse cx="110" cy="148" rx="14" ry="10" fill="#E4DBCB" stroke="#191714" stroke-width="1.8"/>
+                <polygon points="84,97 90,101 84,105" fill="#9A6F52" stroke="#191714" stroke-width="1"/>
+                <polygon points="96,97 90,101 96,105" fill="#9A6F52" stroke="#191714" stroke-width="1"/>
+                <circle cx="90" cy="101" r="2.5" fill="#191714"/>
+              </svg>
+            </div>
+            <p class="portrait-subtag">Fig. 1 — El autor en su estudio contemplativo.</p>
+          </div>
+
+          <blockquote class="backcover-quote">
+            <p>“Este libro fue escrito desde lo más profundo de mi corazón.<br>
+            Mi corazón no es muy profundo, y sano tampoco,<br>
+            pero es el fondo al final.”</p>
+          </blockquote>
+
+          <div class="author-credits">
+            <h2 class="author-name">Tomás Garrido</h2>
+            <p class="author-role">Autor, editor y gato no acreditado.</p>
+          </div>
+
+          <div class="colophon">
+            <p>Impreso con paciencia y cariño sobre papel digital · Hecho para Kate</p>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <aside class="keyboard-hints" aria-hidden="true">
+    <span>[ ← / → ] Páginas</span>
+    <span>[ Espacio ] Avanzar</span>
+    <span>[ Esc ] Portada</span>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
